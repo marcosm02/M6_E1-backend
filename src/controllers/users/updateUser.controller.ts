@@ -7,8 +7,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "User not found" });
   }
   const data: IUserUpdate = req.body;
-  const urlId: string = req.params.id;
-  const userId: string = req.user.id;
-  const [status, respData] = await updateUserService(data, urlId, userId);
+  const urlId: string = req.params.uid;
+  const [status, respData] = await updateUserService(data, urlId);
   return res.status(status).json(respData);
 };

@@ -13,3 +13,9 @@ export interface IContact {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IContactUpdate {
+  name?: string;
+  email?: string;
+  telephone?: string;
+}

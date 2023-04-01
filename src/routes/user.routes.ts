@@ -1,15 +1,17 @@
 import { Router } from "express";
-import { createUserController } from "../controllers/users/users.controller";
 import { verifyDuplicateUserMiddleware } from "../middlewares/verifyDuplicateUser.middleware";
 import { validateDataMiddleware } from "../middlewares/validateData.middleware";
 import { isActiveMiddleware } from "../middlewares/isActive.middleware";
+import { isTargetUserActiveMiddleware } from "../middlewares/isTargetUserActive.middleware";
+import { authMiddleware } from "../middlewares/auth.middleware";
+import { isOwnerMiddleware } from "../middlewares/isOwner.middleware";
 import {
   updateUserSchema,
   userSchema,
 } from "../serializers/users/user.serializer";
-import { authMiddleware } from "../middlewares/auth.middleware";
-import { updateUserController } from "../controllers/users/update.controller";
-import { deleteUserController } from "../controllers/users/delete.controller";
+import { createUserController } from "../controllers/users/createUser.controller";
+import { updateUserController } from "../controllers/users/updateUser.controller";
+import { deleteUserController } from "../controllers/users/deleteUser.controller";
 
 export const usersRoutes = Router();
 
@@ -20,15 +22,18 @@ usersRoutes.post(
   createUserController
 );
 usersRoutes.patch(
-  "/users/:id",
-  validateDataMiddleware(updateUserSchema),
-  isActiveMiddleware,
+  "/users/:uid",
   authMiddleware,
+  isActiveMiddleware,
+  isTargetUserActiveMiddleware,
+  isOwnerMiddleware,
+  validateDataMiddleware(updateUserSchema),
   updateUserController
 );
 usersRoutes.delete(
-  "/users/:id",
-  isActiveMiddleware,
+  "/users/:uid",
   authMiddleware,
+  isActiveMiddleware,
+  isTargetUserActiveMiddleware,
   deleteUserController
 );
