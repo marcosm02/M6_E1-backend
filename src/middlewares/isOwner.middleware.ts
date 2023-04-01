@@ -2,20 +2,23 @@ import { Request, Response, NextFunction } from "express";
 import AppDataSource from "../data-source";
 import { UserEntity } from "../entities/user.entity";
 
-export const isActiveMiddleware = async (
+export const isOwnerMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const userRepository = AppDataSource.getRepository(UserEntity);
   const user = await userRepository.findOneBy({
-    email: req.body.email,
+    id: req.user.id,
   });
   if (!user) {
     return res.status(401).json({ message: "Wrong email or password" });
   }
-  if (!user.isActive) {
-    return res.status(400).json({ message: "User does not exist" });
+
+  const urlId: string = req.params.uid;
+  const userId: string = req.user.id;
+  if (urlId !== userId) {
+    return [401, { message: "Permission denied" }];
   }
   next();
 };

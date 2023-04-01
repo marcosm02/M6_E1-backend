@@ -2,17 +2,17 @@ import { Request, Response, NextFunction } from "express";
 import AppDataSource from "../data-source";
 import { UserEntity } from "../entities/user.entity";
 
-export const isActiveMiddleware = async (
+export const isTargetUserActiveMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const userRepository = AppDataSource.getRepository(UserEntity);
   const user = await userRepository.findOneBy({
-    email: req.body.email,
+    id: req.params.uid,
   });
   if (!user) {
-    return res.status(401).json({ message: "Wrong email or password" });
+    return res.status(401).json({ message: "User not found" });
   }
   if (!user.isActive) {
     return res.status(400).json({ message: "User does not exist" });

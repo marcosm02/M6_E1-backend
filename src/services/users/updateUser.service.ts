@@ -5,8 +5,7 @@ import { userReturnedSchema } from "../../serializers/users/user.serializer";
 
 export const updateUserService = async (
   data: IUserUpdate,
-  urlId: string,
-  userId: string
+  urlId: string
 ): Promise<any> => {
   const userRepo = AppDataSource.getRepository(UserEntity);
   const user = await userRepo.findOneBy({ id: urlId });
@@ -23,10 +22,6 @@ export const updateUserService = async (
     validateData.includes("contacts")
   ) {
     return [401, { message: "Change not allowed" }];
-  }
-
-  if (urlId !== userId) {
-    return [401, { message: "Permission denied" }];
   }
 
   const updatedUser = userRepo.create({
