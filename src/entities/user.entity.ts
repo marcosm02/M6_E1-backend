@@ -25,7 +25,7 @@ export class UserEntity {
   @Column({ length: 100 })
   password: string;
 
-  @BeforeUpdate()
+  // @BeforeUpdate()
   @BeforeInsert()
   hashPassword() {
     this.password = hashSync(this.password, 10);

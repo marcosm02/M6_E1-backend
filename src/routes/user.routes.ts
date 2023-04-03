@@ -12,14 +12,25 @@ import {
 import { createUserController } from "../controllers/users/createUser.controller";
 import { updateUserController } from "../controllers/users/updateUser.controller";
 import { deleteUserController } from "../controllers/users/deleteUser.controller";
+import { listUsersController } from "../controllers/users/listUsers.controller";
+import { getOneUserController } from "../controllers/users/getOneUser.controller";
 
 export const usersRoutes = Router();
 
+usersRoutes.get("/users", authMiddleware, listUsersController);
 usersRoutes.post(
   "/users",
   verifyDuplicateUserMiddleware,
   validateDataMiddleware(userSchema),
   createUserController
+);
+usersRoutes.get(
+  "/users/:uid",
+  authMiddleware,
+  isActiveMiddleware,
+  isTargetUserActiveMiddleware,
+  isOwnerMiddleware,
+  getOneUserController
 );
 usersRoutes.patch(
   "/users/:uid",
@@ -35,5 +46,6 @@ usersRoutes.delete(
   authMiddleware,
   isActiveMiddleware,
   isTargetUserActiveMiddleware,
+  isOwnerMiddleware,
   deleteUserController
 );

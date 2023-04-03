@@ -7,8 +7,8 @@ export const isTargetUserActiveMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userRepository = AppDataSource.getRepository(UserEntity);
-  const user = await userRepository.findOneBy({
+  const userRepo = AppDataSource.getRepository(UserEntity);
+  const user = await userRepo.findOneBy({
     id: req.params.uid,
   });
   if (!user) {
