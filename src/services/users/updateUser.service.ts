@@ -2,6 +2,7 @@ import AppDataSource from "../../data-source";
 import { UserEntity } from "../../entities/user.entity";
 import { IUserUpdate } from "../../interfaces/users/users.interfaces";
 import { userReturnedSchema } from "../../serializers/users/user.serializer";
+import { hashSync } from "bcryptjs";
 
 export const updateUserService = async (
   data: IUserUpdate,
@@ -22,6 +23,10 @@ export const updateUserService = async (
     validateData.includes("contacts")
   ) {
     return [401, { message: "Change not allowed" }];
+  }
+
+  if (data.password) {
+    data.password = hashSync(data.password, 10);
   }
 
   const updatedUser = userRepo.create({
