@@ -25,5 +25,5 @@ export const loginService = async (data: IUserLogin): Promise<any> => {
     }
   );
 
-  return [200, { token: token }];
+  return [200, { token: token, userId: user.id }];
 };
