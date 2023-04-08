@@ -31,6 +31,6 @@ export class ContactEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => UserEntity, (users) => users.contacts)
+  @ManyToOne(() => UserEntity, (user) => user.contacts)
   user: UserEntity;
 }
