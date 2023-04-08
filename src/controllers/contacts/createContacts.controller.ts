@@ -4,6 +4,7 @@ import { createContactService } from "../../services/contacts/createContacts.ser
 
 export const createContactController = async (req: Request, res: Response) => {
   const contact: IContactRequest = req.body;
-  const newContact = await createContactService(contact);
+  const urlId: string = req.params.uid;
+  const newContact = await createContactService(contact, urlId);
   return res.status(201).json(newContact);
 };
