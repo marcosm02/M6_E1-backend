@@ -15,5 +15,9 @@ export const getOneUserService = async (urlId: string): Promise<any> => {
     return [404, { message: "User not found" }];
   }
   delete user.password;
+  const activeUserContacts = user.contacts.filter(
+    (el) => el.isActive !== false
+  );
+  user.contacts = activeUserContacts;
   return [200, user];
 };

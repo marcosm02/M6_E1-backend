@@ -35,7 +35,6 @@ usersRoutes.get(
 usersRoutes.patch(
   "/users/:uid",
   authMiddleware,
-  isActiveMiddleware,
   isTargetUserActiveMiddleware,
   isOwnerMiddleware,
   validateDataMiddleware(updateUserSchema),
